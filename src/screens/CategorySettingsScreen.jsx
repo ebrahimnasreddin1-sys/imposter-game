@@ -2,12 +2,20 @@ import { useState, useEffect } from 'react';
 import { CATEGORIES } from '../data/characters';
 import { getEnabledCharacters, saveEnabledCharacters } from '../utils/gameLogic';
 import { ArrowLeft, Check, CheckSquare, Square, Save } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function CategorySettingsScreen({ category, onBack }) {
+  const { t, lang } = useLanguage();
   const [enabledChars, setEnabledChars] = useState([]);
   const [error, setError] = useState('');
 
   const allChars = CATEGORIES[category] || [];
+
+  const catNameAr = {
+    "Jujutsu Kaisen": "Jujutsu Kaisen / جوجوتسو كايسن",
+    "Demon Slayer": "Demon Slayer / ديمون سلاير",
+    "Brawl Stars": "Brawl Stars / براول ستارز"
+  };
 
   useEffect(() => {
     setEnabledChars(getEnabledCharacters(category));
@@ -34,7 +42,7 @@ export default function CategorySettingsScreen({ category, onBack }) {
 
   const handleSave = () => {
     if (enabledChars.length < 7) {
-      setError('You must enable at least 7 characters.');
+      setError(t("minCharactersError"));
       return;
     }
     saveEnabledCharacters(category, enabledChars);
@@ -46,11 +54,11 @@ export default function CategorySettingsScreen({ category, onBack }) {
       {/* Header */}
       <div className="flex items-center mb-6">
         <button onClick={onBack} className="p-2 text-zinc-400 active:text-white">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className={`w-6 h-6 ${lang === 'ar' ? 'rotate-180' : ''}`} />
         </button>
-        <div className="flex-1 text-center pr-10">
-          <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest">{category}</p>
-          <h1 className="text-xl font-bold text-white">Settings</h1>
+        <div className="flex-1 text-center pe-10">
+          <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest">{lang === 'ar' ? (catNameAr[category] || category) : category}</p>
+          <h1 className="text-xl font-bold text-white">{t("characterSettings")}</h1>
         </div>
       </div>
 
@@ -63,16 +71,16 @@ export default function CategorySettingsScreen({ category, onBack }) {
       {/* Controls */}
       <div className="flex gap-2 mb-4">
         <button onClick={handleSelectAll} className="flex-1 py-2 bg-white/[0.05] rounded-lg text-sm text-white font-semibold active:bg-white/[0.1]">
-          Select All
+          {t("selectAll")}
         </button>
         <button onClick={handleDeselectAll} className="flex-1 py-2 bg-white/[0.05] rounded-lg text-sm text-zinc-400 font-semibold active:bg-white/[0.1]">
-          Deselect All
+          {t("deselectAll")}
         </button>
       </div>
 
       <div className="text-zinc-500 text-xs mb-3 flex justify-between">
-        <span>Enabled: {enabledChars.length}/{allChars.length}</span>
-        <span>Min: 7</span>
+        <span>{t("enabled")}: {enabledChars.length}/{allChars.length}</span>
+        <span>{t("min")}: 7</span>
       </div>
 
       {/* List */}
@@ -102,7 +110,7 @@ export default function CategorySettingsScreen({ category, onBack }) {
 
       {/* Save Button */}
       <button onClick={handleSave} className="btn-primary py-4 text-base">
-        <Save className="w-5 h-5" /> Save Settings
+        <Save className="w-5 h-5" /> {t("saveSettings")}
       </button>
     </div>
   );

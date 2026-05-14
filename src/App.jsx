@@ -217,6 +217,8 @@ export default function App() {
       {screen === 'discussion' && (
         <DiscussionScreen
           players={players}
+          category={selectedCategory}
+          currentRound={currentRound}
           onEndRound={handleEndRound}
         />
       )}

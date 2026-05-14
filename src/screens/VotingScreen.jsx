@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Users, Lock } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function VotingScreen({ players, currentVoterIdx, onVote }) {
+  const { t, lang } = useLanguage();
   const [selected, setSelected] = useState(null);
   const [locked, setLocked] = useState(false);
   const [passScreen, setPassScreen] = useState(true);
@@ -26,12 +28,12 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
     return (
       <div className="flex flex-col items-center justify-center h-full px-6 animate-fadeIn">
         <div className="text-center mb-8">
-          <p className="text-zinc-500 text-sm uppercase tracking-widest mb-2">Voting Phase</p>
-          <h1 className="text-3xl font-black text-white">Pass device to</h1>
+          <p className="text-zinc-500 text-sm uppercase tracking-widest mb-2">{t("votingPhase")}</p>
+          <h1 className="text-3xl font-black text-white">{t("passDeviceTo")}</h1>
           <h2 className="text-5xl font-black text-cyan-400 mt-2">{voterName}</h2>
         </div>
         <button onClick={() => setPassScreen(false)} className="btn-primary py-4 px-12 text-lg">
-          I am {voterName}
+          {t("iAm")} {voterName}
         </button>
       </div>
     );
@@ -42,8 +44,8 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
       <div className="flex flex-col items-center justify-center h-full px-6 animate-scaleIn">
         <div className="glass-card-strong p-8 text-center border-cyan-500/30 w-full max-w-sm">
           <Lock className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-black text-white">Vote Locked</h1>
-          <p className="text-zinc-400 mt-2">Pass to next player</p>
+          <h1 className="text-2xl font-black text-white">{t("voteLocked")}</h1>
+          <p className="text-zinc-400 mt-2">{t("passToNextPlayer")}</p>
         </div>
       </div>
     );
@@ -56,10 +58,10 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
           <Users className="w-6 h-6 text-cyan-400" />
         </div>
         <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-1">
-          Player {currentVoterIdx + 1} of {players.length}
+          {t("player")} {currentVoterIdx + 1} {t("of")} {players.length}
         </p>
-        <h1 className="text-2xl font-bold text-white">{voterName}, cast your vote</h1>
-        <p className="text-zinc-500 text-sm mt-1">Who is the imposter?</p>
+        <h1 className="text-2xl font-bold text-white">{voterName}, {t("castYourVote")}</h1>
+        <p className="text-zinc-500 text-sm mt-1">{t("whoDoYouThink")}</p>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-2 mb-6">
@@ -83,7 +85,7 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
         disabled={!selected}
         className="btn-primary py-4 text-lg disabled:opacity-50 disabled:active:scale-100"
       >
-        Lock Vote
+        {t("lockVote")}
       </button>
     </div>
   );

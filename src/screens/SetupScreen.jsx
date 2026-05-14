@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { UserPlus, Trash2, Users, ChevronRight } from 'lucide-react';
+import { UserPlus, Trash2, Users, ChevronRight, Languages } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ROUND_OPTIONS = [1, 3, 5, 10, 'custom'];
 
 export default function SetupScreen({ onContinue }) {
+  const { t, lang, setLang } = useLanguage();
   const [players, setPlayers] = useState(['', '']);
   const [totalRounds, setTotalRounds] = useState(3);
   const [customRounds, setCustomRounds] = useState('');
@@ -31,14 +33,25 @@ export default function SetupScreen({ onContinue }) {
 
   return (
     <div className="animate-fadeIn flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto px-4 pt-6 pb-4">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
+        {/* Language Toggle */}
+        <div className="flex justify-end mb-2">
+          <button 
+            onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+            className="p-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-zinc-300 flex items-center gap-2 text-xs font-bold active:scale-95 transition-all"
+          >
+            <Languages className="w-4 h-4" />
+            {lang === 'en' ? 'عربي' : 'English'}
+          </button>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-3">
             <Users className="w-7 h-7 text-cyan-400" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Player Setup</h1>
-          <p className="text-zinc-500 text-sm mt-1">Add 2–12 players to begin</p>
+          <h1 className="text-2xl font-bold text-white">{t("playerSetup")}</h1>
+          <p className="text-zinc-500 text-sm mt-1">{t("addPlayersToBegin")}</p>
         </div>
 
         {/* Player inputs */}
@@ -46,16 +59,16 @@ export default function SetupScreen({ onContinue }) {
           {players.map((name, i) => (
             <div key={i} className="flex items-center gap-2 animate-slideUp" style={{ animationDelay: `${i * 40}ms` }}>
               <div className="flex-1 relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-xs font-bold">
+                <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-600 text-xs font-bold">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <input
                   type="text"
                   value={name}
                   onChange={e => updatePlayer(i, e.target.value)}
-                  placeholder={`Player ${i + 1}`}
+                  placeholder={`${t("player")} ${i + 1}`}
                   maxLength={16}
-                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-3.5 text-white placeholder-zinc-600 text-sm font-medium focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.06] transition-all"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl ps-10 pe-4 py-3.5 text-white placeholder-zinc-600 text-sm font-medium focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.06] transition-all"
                 />
               </div>
               {players.length > 2 && (
@@ -70,13 +83,13 @@ export default function SetupScreen({ onContinue }) {
         {/* Add player button */}
         {players.length < 12 && (
           <button onClick={addPlayer} className="btn-ghost mb-6 text-sm">
-            <UserPlus className="w-4 h-4" /> Add Player ({players.length}/12)
+            <UserPlus className="w-4 h-4" /> {t("addPlayer")} ({players.length}/12)
           </button>
         )}
 
         {/* Round selector */}
         <div className="glass-card p-4 mb-4">
-          <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Number of Rounds</p>
+          <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">{t("numberOfRounds")}</p>
           <div className="grid grid-cols-5 gap-2">
             {ROUND_OPTIONS.map(opt => (
               <button
@@ -99,7 +112,7 @@ export default function SetupScreen({ onContinue }) {
               max="50"
               value={customRounds}
               onChange={e => setCustomRounds(e.target.value)}
-              placeholder="Enter rounds (1-50)"
+              placeholder={t("enterRounds")}
               className="mt-3 w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-cyan-500/50 transition-all"
             />
           )}
@@ -107,7 +120,7 @@ export default function SetupScreen({ onContinue }) {
 
         {/* Validation hints */}
         {hasDuplicates && (
-          <p className="text-red-400 text-xs text-center mb-2">⚠ Duplicate names found</p>
+          <p className="text-red-400 text-xs text-center mb-2">{t("duplicateNames")}</p>
         )}
       </div>
 
@@ -118,7 +131,7 @@ export default function SetupScreen({ onContinue }) {
           disabled={!isValid}
           className="btn-primary text-base"
         >
-          Continue <ChevronRight className="w-5 h-5" />
+          {t("continue")} <ChevronRight className={`w-5 h-5 ${lang === 'ar' ? 'rotate-180' : ''}`} />
         </button>
       </div>
     </div>

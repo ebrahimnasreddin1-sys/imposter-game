@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Crosshair } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function FinalGuessScreen({ imposterName, options, secretChar, onGuess }) {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState(null);
   const [revealed, setRevealed] = useState(false);
 
@@ -37,14 +39,14 @@ export default function FinalGuessScreen({ imposterName, options, secretChar, on
         <div className="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-red-500/10 border border-red-500/20 mb-2">
           <Crosshair className="w-5 h-5 text-red-400" />
         </div>
-        <h1 className="text-lg font-bold text-white">Imposter's Final Guess</h1>
-        <p className="text-red-400 text-sm font-semibold mt-0.5">{imposterName}, pick the secret character!</p>
+        <h1 className="text-lg font-bold text-white">{t("imposterFinalGuess")}</h1>
+        <p className="text-red-400 text-sm font-semibold mt-0.5">{imposterName}, {t("pickSecretCharacter")}</p>
       </div>
 
       {revealed && (
         <div className="text-center mb-3 animate-scaleIn">
           <p className={`text-2xl font-black ${selected === secretChar.name ? 'text-green-400' : 'text-red-400'}`}>
-            {selected === secretChar.name ? '🎯 IMPOSTER WINS!' : '🛡️ CREWMATES WIN!'}
+            {selected === secretChar.name ? `🎯 ${t("imposterWin").toUpperCase()}` : `🛡️ ${t("crewWin").toUpperCase()}`}
           </p>
         </div>
       )}
