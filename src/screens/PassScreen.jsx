@@ -2,20 +2,35 @@ import { Fingerprint } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function PassScreen({ playerName, onReveal }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
-    <div className="animate-fadeIn flex flex-col items-center justify-center h-full px-6 text-center relative">
-      <div className="paper-card-strong p-8 w-full max-w-sm torn-top">
-        <p className="text-[#6a675d] text-sm font-black mb-2 uppercase tracking-widest">{t("passThePhoneTo")}</p>
-        <h1 className="text-4xl font-black text-[#2b2a26] mb-8">{playerName}</h1>
+    <div className="animate-fadeIn flex flex-col items-center h-full px-6 bg-[var(--color-paper-bg)] relative">
+      {/* Top Header Label */}
+      <div className="mt-8 mb-16 relative z-10">
+        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">{lang === 'ar' ? 'مرّر الهاتف' : 'Pass the Phone'}</span>
+          <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
+        </div>
+      </div>
+
+      <div className="w-full max-w-sm text-center flex flex-col items-center z-10">
+        <p className="text-[#2d3748] text-2xl font-black mb-12">
+          {lang === 'ar' ? 'مرّر الهاتف إلى' : 'Pass the phone to'}
+          <br/>
+          <span className="text-[#83a373] text-4xl leading-relaxed">{playerName}</span>
+        </p>
+
         <button
           onClick={onReveal}
-          className="btn-primary text-base w-full flex flex-col items-center gap-3 py-6"
+          className="paper-card w-full aspect-[4/3] rounded-[15px_225px_15px_255px/255px_15px_225px_15px] flex flex-col items-center justify-center gap-4 active:scale-95 transition-all shadow-md border-2 border-dashed border-[#d1ccba] hover:bg-[#faf9f6]"
         >
-          <Fingerprint className="w-10 h-10" />
-          <span>{t("tapToReveal")}</span>
+          <span className="text-xl font-bold text-[#2d3748]">{lang === 'ar' ? 'اضغط للكشف' : 'Tap to Reveal'}</span>
+          <Fingerprint className="w-16 h-16 text-[#2d3748]" strokeWidth={1} />
         </button>
-        <p className="text-[#a9a69b] text-xs mt-4 font-bold">{t("onlyShouldSeeScreen").replace("{{name}}", playerName)}</p>
+        
+        <p className="text-[#718096] text-sm mt-8 font-bold">
+          {lang === 'ar' ? 'لا تظهر البطاقة لغيرك!' : 'Do not show your card to anyone!'}
+        </p>
       </div>
     </div>
   );

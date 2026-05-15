@@ -3,7 +3,7 @@ import { Crosshair } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function FinalGuessScreen({ imposterName, options, secretChar, onGuess }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [selected, setSelected] = useState(null);
   const [revealed, setRevealed] = useState(false);
 
@@ -15,54 +15,69 @@ export default function FinalGuessScreen({ imposterName, options, secretChar, on
   };
 
   const getCardStyle = (charObj) => {
-    if (!revealed) return 'bg-white border-2 border-[#e6e2d6] hover:bg-[#faf9f6] active:scale-[0.98] shadow-sm';
+    if (!revealed) return 'bg-white border border-[#e2dfd3] hover:bg-[#faf9f6] active:scale-95 shadow-sm';
     if (charObj.name === selected && charObj.name === secretChar.name)
-      return 'bg-[#718d53]/10 border-2 border-[#718d53] shadow-sm';
+      return 'bg-[#e6edd8] border-2 border-[#83a373] shadow-md scale-105 z-10';
     if (charObj.name === selected && charObj.name !== secretChar.name)
-      return 'bg-[#c95c4e]/10 border-2 border-[#c95c4e] shadow-sm';
+      return 'bg-[#fbeae7] border-2 border-[#d97768] shadow-md scale-105 z-10';
     if (charObj.name === secretChar.name)
-      return 'bg-[#718d53]/10 border-2 border-[#718d53] shadow-sm';
-    return 'bg-white border-2 border-[#e6e2d6] opacity-50';
+      return 'bg-[#e6edd8] border-2 border-[#83a373] shadow-md animate-pulse';
+    return 'bg-white border border-[#e2dfd3] opacity-50 scale-95';
   };
 
   const getNameColor = (charObj) => {
-    if (!revealed) return 'text-[#2b2a26]';
-    if (charObj.name === selected && charObj.name === secretChar.name) return 'text-[#5d7543]';
-    if (charObj.name === selected) return 'text-[#a84d41]';
-    if (charObj.name === secretChar.name) return 'text-[#5d7543]';
-    return 'text-[#6a675d]';
+    if (!revealed) return 'text-[#2d3748]';
+    if (charObj.name === selected && charObj.name === secretChar.name) return 'text-[#6a8c59]';
+    if (charObj.name === selected) return 'text-[#c45b4c]';
+    if (charObj.name === secretChar.name) return 'text-[#6a8c59]';
+    return 'text-[#a0aec0]';
   };
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-5 pb-6 relative">
-      {/* Decorative background doodles could go here */}
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#c95c4e]/10 border border-[#c95c4e]/20 mb-3 animate-paperFloat">
-          <Crosshair className="w-7 h-7 text-[#c95c4e]" />
+    <div className="animate-fadeIn flex flex-col h-full bg-[var(--color-paper-bg)] relative">
+      
+      {/* Top Header Label */}
+      <div className="pt-8 mb-6 relative z-10 flex justify-center">
+        <div className="bg-[#d97768] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">{lang === 'ar' ? 'المحاولة الأخيرة' : 'Final Guess'}</span>
+          <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#d97768] to-transparent opacity-50 blur-[2px]"></div>
         </div>
-        <h1 className="text-2xl font-black text-[#2b2a26]">{t("imposterFinalGuess")}</h1>
-        <p className="text-[#a84d41] text-sm font-bold mt-1">{imposterName}, {t("pickSecretCharacter")}</p>
       </div>
 
-      {revealed && (
-        <div className="text-center mb-5 animate-scaleIn bg-[#ffffff] p-4 rounded-xl border-2 border-[#e6e2d6] shadow-sm">
-          <p className={`text-2xl font-black ${selected === secretChar.name ? 'text-[#718d53]' : 'text-[#c95c4e]'}`}>
-            {selected === secretChar.name ? `🎯 ${t("imposterWin").toUpperCase()}` : `🛡️ ${t("crewWin").toUpperCase()}`}
+      <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col">
+        <div className="text-center mb-8">
+          <p className="text-[#d97768] text-lg font-black mb-1">
+            {lang === 'ar' ? `أنت الإمبوستر يا ${imposterName}` : `You are the Imposter, ${imposterName}`}
+          </p>
+          <p className="text-[#718096] text-sm font-bold">
+            {lang === 'ar' ? 'خمن الشخصية السرية للفوز' : 'Guess the secret character to win'}
           </p>
         </div>
-      )}
 
-      <div className="flex-1 overflow-y-auto px-1 pb-2">
-        <div className="grid gap-3">
+        {revealed && (
+          <div className="text-center mb-6 animate-scaleIn bg-white p-4 rounded-[15px_225px_15px_255px/255px_15px_225px_15px] border border-[#e2dfd3] shadow-sm paper-card relative z-20">
+            <p className={`text-xl font-black ${selected === secretChar.name ? 'text-[#83a373]' : 'text-[#d97768]'}`}>
+              {selected === secretChar.name ? `🎯 ${t("imposterWin").toUpperCase()}` : `🛡️ ${t("crewWin").toUpperCase()}`}
+            </p>
+          </div>
+        )}
+
+        {/* Character Grid */}
+        <div className="grid grid-cols-2 gap-3 pb-4">
           {options.map((charObj, i) => (
             <button
               key={charObj.name}
               onClick={() => handlePick(charObj)}
               disabled={revealed}
-              className={`p-5 rounded-2xl transition-all flex items-center justify-center ${getCardStyle(charObj)}`}
+              className={`p-4 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] transition-all flex flex-col items-center justify-center min-h-[100px] paper-card ${getCardStyle(charObj)}`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
-              <span className={`text-lg font-black ${getNameColor(charObj)}`}>
+              {charObj.icon && (
+                <span className={`text-3xl mb-2 ${!revealed ? 'opacity-80' : ''}`}>
+                  {charObj.icon}
+                </span>
+              )}
+              <span className={`text-sm font-bold text-center leading-tight ${getNameColor(charObj)}`}>
                 {charObj.name}
               </span>
             </button>

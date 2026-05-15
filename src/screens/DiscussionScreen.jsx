@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, Shuffle } from 'lucide-react';
+import { Play, Pause, RotateCcw, Shuffle, MessageCircle, HelpCircle, Users, XSquare } from 'lucide-react';
 import { formatTime } from '../utils/gameLogic';
 import { jujutsuQuestions, jujutsuQuestionsAr } from '../utils/jujutsuQuestions';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -69,7 +69,6 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
       count++;
       if (count >= total) {
         clearInterval(iv);
-        // Pick final avoiding repeats
         let askerIdx, answererIdx;
         const attempts = 20;
         for (let i = 0; i < attempts; i++) {
@@ -103,79 +102,104 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
   const isLow = seconds <= 30;
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6 relative">
-      {/* Decorative background doodles could go here */}
-      <div className="text-center mb-6">
-        <p className="text-xs font-black uppercase tracking-widest text-[#718d53] mb-1">{t("discussionTime")}</p>
-        <h1 className={`text-6xl font-black font-mono tabular-nums ${isLow ? 'text-[#c95c4e]' : 'text-[#2b2a26]'}`}>
-          {formatTime(seconds)}
-        </h1>
-        {/* Timer bar */}
-        <div className="w-full h-2 bg-[#e6e2d6] rounded-full overflow-hidden mt-5 shadow-inner">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${isLow ? 'bg-[#c95c4e]' : 'bg-[#718d53]'}`}
-            style={{ width: `${pct}%` }}
-          />
+    <div className="animate-fadeIn flex flex-col h-full bg-[var(--color-paper-bg)] relative">
+      
+      {/* Top Header Label */}
+      <div className="pt-8 mb-6 relative z-10 flex justify-center">
+        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">{lang === 'ar' ? 'وقت النقاش' : 'Discussion Time'}</span>
+          <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>
 
-      {/* Timer controls */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        <button onClick={() => setRunning(!running)} className="btn-ghost text-sm py-4">
-          {running ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-          {running ? t("pause") : t("resume")}
-        </button>
-        <button onClick={() => { setSeconds(180); setRunning(false); }} className="btn-ghost text-sm py-4">
-          <RotateCcw className="w-5 h-5" /> {t("reset")}
-        </button>
-        <button onClick={onEndRound} className="btn-danger text-sm py-4">
-          <SkipForward className="w-5 h-5" /> {t("end")}
-        </button>
-      </div>
-
-      {/* Interrogation Roulette */}
-      <div className="paper-card-strong p-6 flex-1 flex flex-col torn-top">
-        <p className="text-sm font-black uppercase tracking-widest text-[#6a675d] mb-5 text-center">
-          {t("interrogationRoulette")}
-        </p>
-
-        {(rouletteResult || rouletteAnimating) && (
-          <div className={`text-center mb-6 p-5 paper-card shadow-sm ${rouletteAnimating ? 'opacity-60 scale-95' : 'scale-100 border-[#718d53] border-2'} transition-all`}>
-            <p className="text-2xl font-black text-[#718d53]">{displayNames.asker}</p>
-            <p className="text-[#6a675d] text-sm my-2 font-bold">{t("asks")}</p>
-            <p className="text-2xl font-black text-[#2b2a26]">{displayNames.answerer}</p>
-            
-            {category === 'Jujutsu Kaisen' && currentQuestion && (
-              <div className={`mt-5 pt-5 border-t-2 border-[#e6e2d6] dashed ${rouletteAnimating ? 'opacity-0' : 'animate-fadeIn'}`}>
-                <p className="text-xs font-black text-[#6a675d] uppercase tracking-widest mb-2">{t("questionLabel")}</p>
-                <p className="text-lg font-bold text-[#2b2a26]">"{currentQuestion}"</p>
-              </div>
-            )}
+      <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col">
+        {/* Timer section */}
+        <div className="text-center mb-6 z-10">
+          <h1 className={`text-6xl font-black font-mono tabular-nums mb-3 ${isLow ? 'text-[#d97768]' : 'text-[#83a373]'}`}>
+            {formatTime(seconds)}
+          </h1>
+          {/* Timer bar */}
+          <div className="w-full max-w-xs mx-auto h-3 bg-[#e2dfd3] rounded-full overflow-hidden shadow-inner">
+            <div
+              className={`h-full rounded-full transition-all duration-1000 ${isLow ? 'bg-[#d97768]' : 'bg-[#83a373]'}`}
+              style={{ width: `${pct}%` }}
+            />
           </div>
-        )}
+        </div>
 
-        <div className="mt-auto">
-          {category === 'Jujutsu Kaisen' ? (
-            <div className="flex flex-col gap-3">
-              <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary text-base">
-                <Shuffle className="w-5 h-5" />
-                {rouletteAnimating ? t("spinning") : t("randomPairQuestion")}
-              </button>
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-ghost text-sm px-2">
-                  {t("randomPair")}
-                </button>
-                <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-ghost text-sm px-2">
-                  {t("randomQuestion")}
-                </button>
-              </div>
+        {/* Roulette Interaction Area */}
+        <div className="paper-card p-6 mb-6 rounded-[15px_225px_15px_255px/255px_15px_225px_15px] shadow-sm relative overflow-hidden">
+          <div className="flex items-center gap-4">
+            {/* Side Illustration */}
+            <div className="hidden sm:flex flex-col items-center justify-center p-3 bg-[#f5f2e9] rounded-xl border border-[#e2dfd3] shrink-0">
+              <Users className="w-6 h-6 text-[#718096] mb-1" />
+              <MessageCircle className="w-5 h-5 text-[#83a373]" />
             </div>
+
+            <div className="flex-1">
+              <p className="text-sm font-bold uppercase tracking-widest text-[#718096] mb-3 text-center sm:text-start border-b border-dashed border-[#d1ccba] pb-2">
+                {lang === 'ar' ? 'عجلة الاستجواب' : 'Interrogation Wheel'}
+              </p>
+
+              {(rouletteResult || rouletteAnimating) ? (
+                <div className={`transition-all ${rouletteAnimating ? 'opacity-60 scale-95' : 'scale-100'}`}>
+                  <div className="bg-[#fef4e3] border-l-4 border-[#e6b95c] p-3 rounded-lg mb-3 shadow-sm">
+                    <p className="text-lg font-bold text-[#2d3748] text-center">
+                      <span className="text-[#83a373]">{displayNames.asker}</span> {lang === 'ar' ? 'يسأل' : 'asks'} <span className="text-[#83a373]">{displayNames.answerer}</span>
+                    </p>
+                  </div>
+                  
+                  {category === 'Jujutsu Kaisen' && currentQuestion && (
+                    <div className="bg-white border border-[#e2dfd3] p-4 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] shadow-sm">
+                      <p className="text-base font-bold text-[#2d3748] text-center leading-relaxed">
+                        {currentQuestion}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="py-8 text-center text-[#a0aec0] font-bold">
+                  {lang === 'ar' ? 'اضغط على أحد الأزرار للبدء' : 'Tap a button below to spin'}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-3 mb-8">
+          {category === 'Jujutsu Kaisen' ? (
+            <>
+              <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <Users className="w-5 h-5" />
+                {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج عشوائي' : 'Random Pair')}
+              </button>
+              <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <HelpCircle className="w-5 h-5" />
+                {lang === 'ar' ? 'سؤال عشوائي' : 'Random Question'}
+              </button>
+              <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <Shuffle className="w-5 h-5" />
+                {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج + سؤال عشوائي' : 'Pair + Random Question')}
+              </button>
+            </>
           ) : (
-            <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base">
+            <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base py-4 shadow-[0_3px_0_#6a8c59]">
               <Shuffle className="w-5 h-5" />
-              {rouletteAnimating ? t("spinning") : t("spinRoulette")}
+              {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'اختيار لاعبين عشوائيًا' : 'Spin Roulette')}
             </button>
           )}
+        </div>
+
+        {/* End Round Button */}
+        <div className="mt-auto flex justify-center">
+          <button 
+            onClick={onEndRound} 
+            className="paper-card flex items-center gap-3 px-6 py-3 rounded-xl text-[#d97768] font-bold active:scale-95 transition-all shadow-sm border border-[#d97768]/30 hover:bg-[#fbeae7]"
+          >
+            <XSquare className="w-5 h-5" fill="#d97768" stroke="white" /> 
+            {lang === 'ar' ? 'إنهاء الجولة' : 'End Round'}
+          </button>
         </div>
       </div>
     </div>

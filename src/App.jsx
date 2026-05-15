@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import SetupScreen from './screens/SetupScreen';
+import HomeScreen from './screens/HomeScreen';
+import PlayersScreen from './screens/PlayersScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import CategorySettingsScreen from './screens/CategorySettingsScreen';
 import PassScreen from './screens/PassScreen';
@@ -16,7 +17,7 @@ import {
 } from './utils/gameLogic';
 
 export default function App() {
-  const [screen, setScreen] = useState('setup');
+  const [screen, setScreen] = useState('home');
   const [players, setPlayers] = useState([]);
   const [totalRounds, setTotalRounds] = useState(3);
   const [currentRound, setCurrentRound] = useState(1);
@@ -44,6 +45,19 @@ export default function App() {
     setScores(initScores);
     setPreviousImposter(null);
     setScreen('category');
+  }, []);
+
+  // ── Home Actions ──
+  const handleStartGame = useCallback(() => {
+    if (players.length >= 2) {
+      setScreen('category');
+    } else {
+      setScreen('players');
+    }
+  }, [players]);
+
+  const handleOpenPlayers = useCallback(() => {
+    setScreen('players');
   }, []);
 
   // ── Category selected → start round ──
@@ -148,7 +162,7 @@ export default function App() {
 
   // ── New game ──
   const handleNewGame = useCallback(() => {
-    setScreen('setup');
+    setScreen('home');
     setPlayers([]);
     setScores({});
     setPreviousImposter(null);
@@ -170,14 +184,23 @@ export default function App() {
   return (
     <div className="h-full w-full max-w-lg mx-auto relative overflow-hidden">
 
-      {screen === 'setup' && (
-        <SetupScreen onContinue={handleSetupContinue} />
+      {screen === 'home' && (
+        <HomeScreen
+          onStartGame={handleStartGame}
+          onOpenPlayers={handleOpenPlayers}
+          onOpenSettings={() => handleOpenSettings(null)}
+        />
+      )}
+
+      {screen === 'players' && (
+        <PlayersScreen onContinue={handleSetupContinue} onBack={() => setScreen('home')} />
       )}
 
       {screen === 'category' && (
         <CategoryScreen
           onSelect={startRound}
           onOpenSettings={handleOpenSettings}
+          onBack={() => setScreen('players')}
           currentRound={currentRound}
           totalRounds={totalRounds}
         />

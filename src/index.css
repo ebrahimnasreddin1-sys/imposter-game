@@ -1,31 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
 @import "tailwindcss";
 
 /* ── Base theme ── */
 @theme {
-  --font-family-nunito: 'Nunito', sans-serif;
-  --font-family-tajawal: 'Tajawal', sans-serif;
+  --font-family-fredoka: 'Fredoka', sans-serif;
+  --font-family-cairo: 'Cairo', sans-serif;
   
-  --color-paper-bg: #f9f6f0;
+  --color-paper-bg: #f5f2e9;
   --color-paper-card: #ffffff;
   --color-paper-card-hover: #faf9f6;
   
-  --color-ink-main: #2b2a26;
-  --color-ink-light: #6a675d;
+  --color-ink-main: #2d3748; /* softer dark grey/blue-ish */
+  --color-ink-light: #718096;
   
-  --color-accent-green: #718d53;
-  --color-accent-green-hover: #5d7543;
-  --color-accent-green-light: #e5ecd6;
+  --color-accent-green: #83a373; /* Sage/Olive green */
+  --color-accent-green-hover: #6a8c59;
+  --color-accent-green-light: #e6edd8;
   
-  --color-accent-red: #c95c4e;
-  --color-accent-red-hover: #a84d41;
-  --color-accent-red-light: #f7e6e3;
+  --color-accent-red: #d97768;
+  --color-accent-red-hover: #c45b4c;
+  --color-accent-red-light: #fbeae7;
   
-  --color-accent-yellow: #dca843;
-  --color-accent-yellow-light: #fcf1d7;
+  --color-accent-yellow: #e6b95c;
+  --color-accent-yellow-light: #fef4e3;
 
-  --color-paper-border: #e6e2d6;
-  --color-paper-border-strong: #d2cdbc;
+  --color-paper-border: #e2dfd3;
+  --color-paper-border-strong: #d1ccba;
 }
 
 /* ── Global reset ── */
@@ -40,12 +39,12 @@ html {
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
-  background: var(--color-paper-bg);
-  background-image: 
-    radial-gradient(var(--color-paper-border) 1px, transparent 1px),
+  font-family: 'Fredoka', sans-serif;
+  background-color: var(--color-paper-bg);
+  /* Subtle paper grain texture + subtle dot grid */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
     radial-gradient(var(--color-paper-border) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-size: 200px 200px, 20px 20px;
   background-position: 0 0, 10px 10px;
   color: var(--color-ink-main);
   margin: 0;
@@ -58,10 +57,10 @@ body {
 
 /* RTL overrides for Arabic */
 html[lang="ar"] body {
-  font-family: 'Tajawal', sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 html[lang="ar"] input, html[lang="ar"] button {
-  font-family: 'Tajawal', sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 
 #root {
@@ -130,7 +129,7 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
 .paper-card {
   background: var(--color-paper-card);
   border: 1px solid var(--color-paper-border);
-  border-radius: 12px;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   box-shadow: 
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.03),
@@ -141,7 +140,7 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
 .paper-card-strong {
   background: var(--color-paper-card);
   border: 2px solid var(--color-paper-border-strong);
-  border-radius: 16px;
+  border-radius: 15px 225px 15px 255px/255px 15px 225px 15px;
   box-shadow: 
     3px 4px 0 rgba(0, 0, 0, 0.04),
     0 10px 15px -3px rgba(0, 0, 0, 0.05);
@@ -169,7 +168,7 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
   background: var(--color-accent-green);
   color: white;
   font-weight: 800;
-  border-radius: 12px;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   padding: 14px 28px;
   font-size: 1.1rem;
   border: none;
@@ -183,6 +182,33 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
   width: 100%;
   box-shadow: 0 4px 0 var(--color-accent-green-hover), 0 8px 10px rgba(0,0,0,0.1);
   text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+/* Torn paper top and bottom effect for primary buttons */
+.btn-primary::before, .btn-primary::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-image: radial-gradient(circle at 4px 0, transparent 4px, var(--color-accent-green) 5px);
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+  z-index: 0;
+}
+.btn-primary::before {
+  top: -4px;
+}
+.btn-primary::after {
+  bottom: -4px;
+  transform: scaleY(-1);
+  background-image: radial-gradient(circle at 4px 0, transparent 4px, var(--color-accent-green-hover) 5px);
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
 }
 
 .btn-primary:active {
@@ -198,12 +224,15 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
   transform: none;
   text-shadow: none;
 }
+.btn-primary:disabled::before, .btn-primary:disabled::after {
+  background-image: radial-gradient(circle at 4px 0, transparent 4px, var(--color-paper-border-strong) 5px);
+}
 
 .btn-danger {
   background: var(--color-accent-red);
   color: white;
   font-weight: 800;
-  border-radius: 12px;
+  border-radius: 15px 225px 15px 255px/255px 15px 225px 15px;
   padding: 14px 28px;
   font-size: 1.1rem;
   border: none;
@@ -228,7 +257,7 @@ html[lang="ar"] .animate-shrinkX { transform-origin: right; }
   background: var(--color-paper-card);
   color: var(--color-ink-main);
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   padding: 14px 28px;
   font-size: 1rem;
   border: 2px solid var(--color-paper-border-strong);

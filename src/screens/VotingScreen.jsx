@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Lock } from 'lucide-react';
+import { Users, Lock, User, Check, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function VotingScreen({ players, currentVoterIdx, onVote }) {
@@ -26,73 +26,103 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
 
   if (passScreen) {
     return (
-      <div className="flex flex-col items-center justify-center h-full px-6 animate-fadeIn relative">
-        {/* Decorative background doodles could go here */}
-        <div className="text-center mb-10">
-          <p className="text-[#6a675d] text-sm font-black uppercase tracking-widest mb-3">{t("votingPhase")}</p>
-          <h1 className="text-4xl font-black text-[#2b2a26]">{t("passDeviceTo")}</h1>
-          <h2 className="text-5xl font-black text-[#718d53] mt-4">{voterName}</h2>
+      <div className="flex flex-col items-center justify-center h-full px-6 animate-fadeIn bg-[var(--color-paper-bg)] relative">
+        <div className="paper-card p-10 text-center w-full max-w-sm rounded-[15px_225px_15px_255px/255px_15px_225px_15px] shadow-sm">
+          <p className="text-[#718096] text-sm font-black uppercase tracking-widest mb-4">
+            {lang === 'ar' ? 'مرحلة التصويت' : 'Voting Phase'}
+          </p>
+          <h1 className="text-3xl font-black text-[#2d3748]">
+            {lang === 'ar' ? 'مرّر الهاتف إلى' : 'Pass phone to'}
+          </h1>
+          <h2 className="text-4xl font-black text-[#83a373] mt-4 mb-8">
+            {voterName}
+          </h2>
+          <button 
+            onClick={() => setPassScreen(false)} 
+            className="btn-primary py-4 px-12 text-lg font-black shadow-[0_3px_0_#6a8c59] w-full"
+          >
+            {lang === 'ar' ? `أنا ${voterName}` : `I am ${voterName}`}
+          </button>
         </div>
-        <button onClick={() => setPassScreen(false)} className="btn-primary py-4 px-12 text-lg font-black shadow-md w-auto">
-          {t("iAm")} {voterName}
-        </button>
       </div>
     );
   }
 
   if (locked) {
     return (
-      <div className="flex flex-col items-center justify-center h-full px-6 animate-scaleIn">
-        <div className="paper-card-strong p-10 text-center w-full max-w-sm torn-top">
-          <Lock className="w-14 h-14 text-[#718d53] mx-auto mb-5" />
-          <h1 className="text-3xl font-black text-[#2b2a26]">{t("voteLocked")}</h1>
-          <p className="text-[#6a675d] mt-3 font-bold">{t("passToNextPlayer")}</p>
+      <div className="flex flex-col items-center justify-center h-full px-6 animate-scaleIn bg-[var(--color-paper-bg)] relative">
+        <div className="paper-card p-10 text-center w-full max-w-sm rounded-[255px_15px_225px_15px/15px_225px_15px_255px] shadow-sm border border-[#e2dfd3]">
+          <Lock className="w-14 h-14 text-[#83a373] mx-auto mb-5" />
+          <h1 className="text-2xl font-black text-[#2d3748]">
+            {lang === 'ar' ? 'تم قفل التصويت' : 'Vote Locked'}
+          </h1>
+          <p className="text-[#718096] mt-3 font-bold">
+            {lang === 'ar' ? 'مرّر الهاتف للاعب التالي' : 'Pass to next player'}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6 relative">
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#718d53]/10 border border-[#718d53]/20 mb-4 animate-paperFloat">
-          <Users className="w-8 h-8 text-[#718d53]" />
+    <div className="animate-fadeIn flex flex-col h-full bg-[var(--color-paper-bg)] relative">
+      
+      {/* Top Header Label */}
+      <div className="pt-8 mb-6 relative z-10 flex justify-center">
+        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">
+            {lang === 'ar' ? 'صوّت: من هو الإمبوستر؟' : 'Vote: Who is the Imposter?'}
+          </span>
+          <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
-        <p className="text-[#718d53] text-sm font-black uppercase tracking-widest mb-2">
-          {t("player")} {currentVoterIdx + 1} {t("of")} {players.length}
-        </p>
-        <h1 className="text-2xl font-black text-[#2b2a26]">{voterName}, {t("castYourVote")}</h1>
-        <p className="text-[#6a675d] text-sm mt-2 font-bold">{t("whoDoYouThink")}</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-3 mb-6 px-1">
-        {options.map((name) => (
-          <button
-            key={name}
-            onClick={() => setSelected(name)}
-            className={`w-full p-4 rounded-xl text-left font-black transition-all shadow-sm ${
-              selected === name 
-                ? 'bg-[#c95c4e]/10 border-2 border-[#c95c4e] text-[#a84d41]' 
-                : 'bg-white border-2 border-[#e6e2d6] text-[#2b2a26] hover:bg-[#faf9f6]'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected === name ? 'border-[#c95c4e]' : 'border-[#d2cdbc]'}`}>
-                {selected === name && <div className="w-2.5 h-2.5 rounded-full bg-[#c95c4e]" />}
+      <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col">
+        <div className="text-center mb-6">
+          <p className="text-[#83a373] text-sm font-black uppercase tracking-widest mb-2">
+            {t("player")} {currentVoterIdx + 1} {t("of")} {players.length}
+          </p>
+          <h1 className="text-xl font-bold text-[#2d3748]">
+            <span className="text-[#83a373]">{voterName}</span>, {lang === 'ar' ? 'صوّت الآن' : 'cast your vote'}
+          </h1>
+        </div>
+
+        <div className="flex-1 space-y-3 mb-6 px-1">
+          {options.map((name) => (
+            <button
+              key={name}
+              onClick={() => setSelected(name)}
+              className={`w-full p-4 rounded-[15px_225px_15px_255px/255px_15px_225px_15px] text-left font-bold transition-all shadow-sm flex items-center justify-between ${
+                selected === name 
+                  ? 'bg-[#e6edd8] border-2 border-[#83a373] text-[#2d3748]' 
+                  : 'bg-white border-2 border-[#e2dfd3] text-[#2d3748] hover:bg-[#faf9f6]'
+              }`}
+            >
+              <div className="flex items-center gap-4">
+                <User className="w-5 h-5 text-[#718096]" />
+                <span className="text-lg">{name}</span>
               </div>
-              {name}
-            </div>
-          </button>
-        ))}
-      </div>
+              
+              {/* Radio Circle */}
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${selected === name ? 'border-[#83a373] bg-[#83a373]' : 'border-[#d1ccba] bg-transparent'}`}>
+                {selected === name && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
+              </div>
+            </button>
+          ))}
+        </div>
 
-      <button
-        onClick={handleVote}
-        disabled={!selected}
-        className="btn-primary py-4 text-lg disabled:opacity-50 disabled:active:scale-100"
-      >
-        {t("lockVote")}
-      </button>
+        {/* Start Vote Button */}
+        <div className="mt-auto flex justify-center">
+          <button
+            onClick={handleVote}
+            disabled={!selected}
+            className="btn-primary py-4 px-10 text-lg shadow-[0_3px_0_#6a8c59] w-full max-w-xs"
+          >
+            {lang === 'ar' ? 'ابدأ التصويت' : 'Submit Vote'}
+            {lang === 'ar' ? <Check className="w-5 h-5 mr-2" /> : <Check className="w-5 h-5 ml-2" />}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
