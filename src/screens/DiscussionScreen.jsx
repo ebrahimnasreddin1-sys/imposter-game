@@ -103,77 +103,80 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
   const isLow = seconds <= 30;
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6">
-      <div className="text-center mb-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-1">{t("discussionTime")}</p>
-        <h1 className={`text-6xl font-black font-mono tabular-nums ${isLow ? 'text-red-400' : 'text-white'}`}>
+    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6 relative">
+      {/* Decorative background doodles could go here */}
+      <div className="text-center mb-6">
+        <p className="text-xs font-black uppercase tracking-widest text-[#718d53] mb-1">{t("discussionTime")}</p>
+        <h1 className={`text-6xl font-black font-mono tabular-nums ${isLow ? 'text-[#c95c4e]' : 'text-[#2b2a26]'}`}>
           {formatTime(seconds)}
         </h1>
         {/* Timer bar */}
-        <div className="w-full h-1.5 bg-white/[0.06] rounded-full overflow-hidden mt-4">
+        <div className="w-full h-2 bg-[#e6e2d6] rounded-full overflow-hidden mt-5 shadow-inner">
           <div
-            className={`h-full rounded-full transition-all duration-1000 ${isLow ? 'bg-red-500' : 'bg-cyan-500'}`}
+            className={`h-full rounded-full transition-all duration-1000 ${isLow ? 'bg-[#c95c4e]' : 'bg-[#718d53]'}`}
             style={{ width: `${pct}%` }}
           />
         </div>
       </div>
 
       {/* Timer controls */}
-      <div className="grid grid-cols-3 gap-2 mb-6">
-        <button onClick={() => setRunning(!running)} className="btn-ghost text-sm py-3">
-          {running ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+      <div className="grid grid-cols-3 gap-3 mb-8">
+        <button onClick={() => setRunning(!running)} className="btn-ghost text-sm py-4">
+          {running ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
           {running ? t("pause") : t("resume")}
         </button>
-        <button onClick={() => { setSeconds(180); setRunning(false); }} className="btn-ghost text-sm py-3">
-          <RotateCcw className="w-4 h-4" /> {t("reset")}
+        <button onClick={() => { setSeconds(180); setRunning(false); }} className="btn-ghost text-sm py-4">
+          <RotateCcw className="w-5 h-5" /> {t("reset")}
         </button>
-        <button onClick={onEndRound} className="btn-danger text-sm py-3">
-          <SkipForward className="w-4 h-4" /> {t("end")}
+        <button onClick={onEndRound} className="btn-danger text-sm py-4">
+          <SkipForward className="w-5 h-5" /> {t("end")}
         </button>
       </div>
 
       {/* Interrogation Roulette */}
-      <div className="glass-card-strong p-5 flex-1">
-        <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4 text-center">
+      <div className="paper-card-strong p-6 flex-1 flex flex-col torn-top">
+        <p className="text-sm font-black uppercase tracking-widest text-[#6a675d] mb-5 text-center">
           {t("interrogationRoulette")}
         </p>
 
         {(rouletteResult || rouletteAnimating) && (
-          <div className={`text-center mb-4 p-4 glass-card ${rouletteAnimating ? 'opacity-60' : 'neon-cyan'}`}>
-            <p className="text-lg font-bold text-cyan-400">{displayNames.asker}</p>
-            <p className="text-zinc-500 text-xs my-1">{t("asks")}</p>
-            <p className="text-lg font-bold text-white">{displayNames.answerer}</p>
+          <div className={`text-center mb-6 p-5 paper-card shadow-sm ${rouletteAnimating ? 'opacity-60 scale-95' : 'scale-100 border-[#718d53] border-2'} transition-all`}>
+            <p className="text-2xl font-black text-[#718d53]">{displayNames.asker}</p>
+            <p className="text-[#6a675d] text-sm my-2 font-bold">{t("asks")}</p>
+            <p className="text-2xl font-black text-[#2b2a26]">{displayNames.answerer}</p>
             
             {category === 'Jujutsu Kaisen' && currentQuestion && (
-              <div className={`mt-4 pt-4 border-t border-white/10 ${rouletteAnimating ? 'opacity-0' : 'animate-fadeIn'}`}>
-                <p className="text-sm font-bold text-zinc-400 mb-1">{t("questionLabel")}</p>
-                <p className="text-base font-semibold text-white">"{currentQuestion}"</p>
+              <div className={`mt-5 pt-5 border-t-2 border-[#e6e2d6] dashed ${rouletteAnimating ? 'opacity-0' : 'animate-fadeIn'}`}>
+                <p className="text-xs font-black text-[#6a675d] uppercase tracking-widest mb-2">{t("questionLabel")}</p>
+                <p className="text-lg font-bold text-[#2b2a26]">"{currentQuestion}"</p>
               </div>
             )}
           </div>
         )}
 
-        {category === 'Jujutsu Kaisen' ? (
-          <div className="flex flex-col gap-2">
-            <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary text-sm">
-              <Shuffle className="w-4 h-4" />
-              {rouletteAnimating ? t("spinning") : t("randomPairQuestion")}
-            </button>
-            <div className="grid grid-cols-2 gap-2">
-              <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-ghost text-sm">
-                {t("randomPair")}
+        <div className="mt-auto">
+          {category === 'Jujutsu Kaisen' ? (
+            <div className="flex flex-col gap-3">
+              <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary text-base">
+                <Shuffle className="w-5 h-5" />
+                {rouletteAnimating ? t("spinning") : t("randomPairQuestion")}
               </button>
-              <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-ghost text-sm">
-                {t("randomQuestion")}
-              </button>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-ghost text-sm px-2">
+                  {t("randomPair")}
+                </button>
+                <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-ghost text-sm px-2">
+                  {t("randomQuestion")}
+                </button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-sm">
-            <Shuffle className="w-4 h-4" />
-            {rouletteAnimating ? t("spinning") : t("spinRoulette")}
-          </button>
-        )}
+          ) : (
+            <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base">
+              <Shuffle className="w-5 h-5" />
+              {rouletteAnimating ? t("spinning") : t("spinRoulette")}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

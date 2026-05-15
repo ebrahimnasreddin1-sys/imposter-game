@@ -168,10 +168,7 @@ export default function App() {
   const isCurrentImposter = currentPlayerIdx === imposterIndex;
 
   return (
-    <div className="h-full w-full max-w-lg mx-auto relative overflow-hidden bg-zinc-950">
-      {/* Ambient background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #00f0ff 0%, transparent 70%)' }} />
+    <div className="h-full w-full max-w-lg mx-auto relative overflow-hidden">
 
       {screen === 'setup' && (
         <SetupScreen onContinue={handleSetupContinue} />

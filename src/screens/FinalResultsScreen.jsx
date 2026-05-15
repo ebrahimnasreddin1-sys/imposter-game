@@ -9,21 +9,22 @@ export default function FinalResultsScreen({ players, scores, onPlayAgain, onNew
   const isTie = winners.length > 1;
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6">
+    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6 relative">
+      {/* Decorative background doodles could go here */}
       {/* Header */}
-      <div className="text-center mb-6">
-        <div className="animate-crownBounce text-5xl mb-3">👑</div>
-        <h1 className="text-3xl font-black text-white mb-1">{t("finalResults")}</h1>
+      <div className="text-center mb-8">
+        <div className="animate-crownBounce text-6xl mb-4">👑</div>
+        <h1 className="text-4xl font-black text-[#2b2a26] mb-2">{t("finalResults")}</h1>
         {isTie ? (
-          <p className="text-yellow-400 text-sm font-semibold">{t("itsATie")}</p>
+          <p className="text-[#dca843] text-sm font-black tracking-widest uppercase">{t("itsATie")}</p>
         ) : (
-          <p className="text-yellow-400 text-sm font-semibold">{t("isTheChampion").replace("{{name}}", winners[0])}</p>
+          <p className="text-[#dca843] text-sm font-black tracking-widest uppercase">{t("isTheChampion").replace("{{name}}", winners[0])}</p>
         )}
       </div>
 
       {/* Leaderboard */}
-      <div className="flex-1 overflow-y-auto mb-4">
-        <div className="space-y-2">
+      <div className="flex-1 overflow-y-auto mb-6 px-1 pb-2">
+        <div className="space-y-3">
           {sorted.map((name, i) => {
             const pts = scores[name] || 0;
             const isWinner = pts === topScore;
@@ -32,25 +33,25 @@ export default function FinalResultsScreen({ players, scores, onPlayAgain, onNew
             return (
               <div
                 key={name}
-                className={`animate-slideUp flex items-center justify-between p-4 rounded-2xl transition-all ${
+                className={`animate-slideUp flex items-center justify-between p-5 rounded-2xl transition-all shadow-sm ${
                   isWinner
-                    ? 'glass-card-strong border border-yellow-500/30 bg-yellow-500/[0.06]'
-                    : 'glass-card'
+                    ? 'paper-card-strong border-2 border-[#dca843] bg-[#fcf1d7]'
+                    : 'bg-white border-2 border-[#e6e2d6]'
                 }`}
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl w-8 text-center">{medal || `#${i + 1}`}</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl w-8 text-center">{medal || <span className="text-lg font-black text-[#a9a69b]">#{i + 1}</span>}</span>
                   <div>
-                    <p className={`font-bold ${isWinner ? 'text-yellow-400' : 'text-white'}`}>{name}</p>
-                    {isWinner && <p className="text-yellow-400/60 text-xs">{t("winner")}</p>}
+                    <p className={`font-black text-lg ${isWinner ? 'text-[#dca843]' : 'text-[#2b2a26]'}`}>{name}</p>
+                    {isWinner && <p className="text-[#dca843] text-xs font-bold uppercase tracking-widest">{t("winner")}</p>}
                   </div>
                 </div>
                 <div className="text-right text-end">
-                  <p className={`text-lg font-black ${isWinner ? 'text-yellow-400' : 'text-zinc-400'}`}>
+                  <p className={`text-2xl font-black ${isWinner ? 'text-[#dca843]' : 'text-[#6a675d]'}`}>
                     {pts}
                   </p>
-                  <p className="text-zinc-600 text-xs">{t("points")}</p>
+                  <p className="text-[#a9a69b] text-xs font-bold uppercase tracking-widest">{t("points")}</p>
                 </div>
               </div>
             );
@@ -59,14 +60,14 @@ export default function FinalResultsScreen({ players, scores, onPlayAgain, onNew
       </div>
 
       {/* Action buttons */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <button onClick={onPlayAgain} className="btn-primary text-base">
           <RotateCcw className="w-5 h-5" /> {t("playAgainSame")}
         </button>
         <button onClick={onNewGame} className="btn-ghost text-sm">
           <Plus className="w-4 h-4" /> {t("newGame")}
         </button>
-        <button onClick={onResetScores} className="btn-ghost text-sm text-red-400">
+        <button onClick={onResetScores} className="btn-ghost text-sm text-[#c95c4e] hover:text-[#c95c4e] hover:bg-[#c95c4e]/10 border-[#c95c4e]/30">
           <RotateCcw className="w-4 h-4" /> {t("resetScores")}
         </button>
       </div>

@@ -13,16 +13,17 @@ export default function CategoryScreen({ onSelect, onOpenSettings, currentRound,
   };
 
   return (
-    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6">
-      <div className="text-center mb-6">
-        <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-1">
+    <div className="animate-fadeIn flex flex-col h-full px-4 pt-6 pb-6 relative">
+      {/* Decorative background doodles could go here */}
+      <div className="text-center mb-8">
+        <p className="text-[#718d53] text-sm font-black uppercase tracking-widest mb-2">
           {t("round")} {currentRound} {t("of")} {totalRounds}
         </p>
-        <h1 className="text-2xl font-bold text-white">{t("chooseCategory")}</h1>
-        <p className="text-zinc-500 text-sm mt-1">{t("selectTheme")}</p>
+        <h1 className="text-3xl font-black text-[#2b2a26]">{t("chooseCategory")}</h1>
+        <p className="text-[#6a675d] text-sm mt-2 font-semibold">{t("selectTheme")}</p>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center gap-4">
+      <div className="flex-1 flex flex-col justify-center gap-5">
         {categories.map((cat, i) => {
           const meta = CATEGORY_META[cat];
           return (
@@ -33,21 +34,19 @@ export default function CategoryScreen({ onSelect, onOpenSettings, currentRound,
             >
               <button
                 onClick={() => onSelect(cat)}
-                className="flex-1 glass-card-strong p-5 text-left active:scale-[0.98] transition-transform relative overflow-hidden"
+                className="flex-1 paper-card-strong p-6 text-left active:scale-[0.98] transition-all hover:bg-[#faf9f6]"
                 style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}
               >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${meta.gradient} opacity-[0.07] group-active:opacity-[0.15] transition-opacity`} />
-                <div className="relative flex items-center gap-4">
-                  <div className="text-4xl">{meta.icon}</div>
+                <div className="flex items-center gap-5">
+                  <div className="text-5xl">{meta.icon}</div>
                   <div className="flex-1">
-                    <h2 className="text-lg font-bold text-white" dir={lang === 'ar' ? 'ltr' : 'ltr'} style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>
+                    <h2 className="text-xl font-black text-[#2b2a26]" dir={lang === 'ar' ? 'ltr' : 'ltr'} style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>
                       {lang === 'ar' ? (catNameAr[cat] || cat) : cat}
                     </h2>
-                    <p className="text-zinc-500 text-sm">{meta.subtitle}</p>
+                    <p className="text-[#6a675d] text-sm font-semibold">{meta.subtitle}</p>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center">
-                    <span className={`text-zinc-400 text-lg ${lang === 'ar' ? 'rotate-180' : ''}`}>›</span>
+                  <div className="w-10 h-10 rounded-full bg-[#f9f6f0] flex items-center justify-center border border-[#e6e2d6]">
+                    <span className={`text-[#2b2a26] text-xl font-bold ${lang === 'ar' ? 'rotate-180' : ''}`}>›</span>
                   </div>
                 </div>
               </button>
@@ -57,9 +56,9 @@ export default function CategoryScreen({ onSelect, onOpenSettings, currentRound,
                   e.stopPropagation();
                   onOpenSettings(cat);
                 }}
-                className="ms-2 p-4 rounded-2xl glass-card-strong active:scale-95 transition-transform flex items-center justify-center text-zinc-400 active:text-white"
+                className="ms-3 p-5 rounded-2xl paper-card-strong active:scale-95 transition-all flex items-center justify-center text-[#6a675d] hover:text-[#2b2a26] hover:bg-[#faf9f6]"
               >
-                <Settings className="w-6 h-6" />
+                <Settings className="w-7 h-7" />
               </button>
             </div>
           );
