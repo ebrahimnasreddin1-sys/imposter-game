@@ -1,7 +1,7 @@
 import { Play, Settings, Users, HelpCircle, Languages, Navigation, Star } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export default function HomeScreen({ onStartGame, onOpenPlayers, onOpenSettings }) {
+export default function HomeScreen({ onStartGame, onOpenPlayers, onOpenSettings, onOpenHowToPlay }) {
   const { t, lang, setLang } = useLanguage();
 
   return (
@@ -68,7 +68,10 @@ export default function HomeScreen({ onStartGame, onOpenPlayers, onOpenSettings 
 
       {/* Bottom Menu */}
       <div className="flex gap-3 justify-center w-full mt-auto mb-6 relative z-10 animate-slideUp" style={{ animationDelay: '100ms' }}>
-        <button className="paper-card flex-1 p-4 rounded-xl flex flex-col items-center gap-2 active:scale-95 transition-transform hover:bg-[#faf9f6]">
+        <button 
+          onClick={onOpenHowToPlay}
+          className="paper-card flex-1 p-4 rounded-xl flex flex-col items-center gap-2 active:scale-95 transition-transform hover:bg-[#faf9f6]"
+        >
           <HelpCircle className="w-6 h-6 text-[#2d3748]" />
           <span className="text-xs font-bold text-[#2d3748]">{lang === 'ar' ? 'كيفية اللعب' : 'How to Play'}</span>
         </button>

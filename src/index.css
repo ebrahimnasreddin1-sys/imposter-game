@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ── Base theme ── */
-@theme {
+:root {
   --font-family-fredoka: 'Fredoka', sans-serif;
   --font-family-cairo: 'Cairo', sans-serif;
   
@@ -27,7 +27,56 @@
   --color-paper-border-strong: #d1ccba;
 }
 
-/* ── Global reset ── */
+html.dark-mode {
+  --color-paper-bg: #222220; /* Very dark charcoal/brown */
+  --color-paper-card: #2e2d2b; /* Slightly lighter for cards */
+  --color-paper-card-hover: #363532;
+  
+  --color-ink-main: #eae8e1; /* Soft cream text */
+  --color-ink-light: #a3a19a; /* Muted text */
+  
+  --color-accent-green: #6c875e; /* Muted olive */
+  --color-accent-green-hover: #5a734e;
+  --color-accent-green-light: rgba(108, 135, 94, 0.15);
+  
+  --color-accent-red: #ba5d4f; /* Muted brick red */
+  --color-accent-red-hover: #a14e41;
+  --color-accent-red-light: rgba(186, 93, 79, 0.15);
+  
+  --color-accent-yellow: #c79e4a; /* Muted gold */
+  --color-accent-yellow-light: rgba(199, 158, 74, 0.15);
+
+  --color-paper-border: #42403d; /* Dark paper border */
+  --color-paper-border-strong: #595652;
+}
+
+/* Dark mode mapping for hardcoded hex classes used in components */
+html.dark-mode .text-\[\#2d3748\], html.dark-mode .text-\[\#2b2a26\] { color: var(--color-ink-main) !important; }
+html.dark-mode .text-\[\#718096\], html.dark-mode .text-\[\#6a675d\], html.dark-mode .text-\[\#a0aec0\], html.dark-mode .text-\[\#a9a69b\] { color: var(--color-ink-light) !important; }
+
+html.dark-mode .bg-\[\#83a373\], html.dark-mode .bg-\[\#718d53\] { background-color: var(--color-accent-green) !important; }
+html.dark-mode .text-\[\#83a373\], html.dark-mode .text-\[\#718d53\], html.dark-mode .text-\[\#6a8c59\], html.dark-mode .text-\[\#5d7543\] { color: var(--color-accent-green) !important; }
+html.dark-mode .border-\[\#83a373\], html.dark-mode .border-\[\#718d53\] { border-color: var(--color-accent-green) !important; }
+
+html.dark-mode .bg-\[\#d97768\], html.dark-mode .bg-\[\#c95c4e\] { background-color: var(--color-accent-red) !important; }
+html.dark-mode .text-\[\#d97768\], html.dark-mode .text-\[\#c95c4e\], html.dark-mode .text-\[\#c45b4c\], html.dark-mode .text-\[\#a84d41\] { color: var(--color-accent-red) !important; }
+html.dark-mode .border-\[\#d97768\], html.dark-mode .border-\[\#c95c4e\] { border-color: var(--color-accent-red) !important; }
+
+html.dark-mode .bg-\[\#e6b95c\] { background-color: var(--color-accent-yellow) !important; }
+html.dark-mode .text-\[\#e6b95c\], html.dark-mode .text-\[\#dca843\] { color: var(--color-accent-yellow) !important; }
+html.dark-mode .border-\[\#e6b95c\], html.dark-mode .border-\[\#dca843\] { border-color: var(--color-accent-yellow) !important; }
+
+html.dark-mode .bg-white { background-color: var(--color-paper-card) !important; }
+html.dark-mode .bg-\[\#faf9f6\], html.dark-mode .bg-\[\#f5f2e9\], html.dark-mode .bg-\[\#f9f6f0\] { background-color: var(--color-paper-card-hover) !important; }
+
+html.dark-mode .bg-\[\#e6edd8\], html.dark-mode .bg-\[\#718d53\]\\\/10 { background-color: var(--color-accent-green-light) !important; }
+html.dark-mode .bg-\[\#fbeae7\], html.dark-mode .bg-\[\#c95c4e\]\\\/10, html.dark-mode .bg-\[\#f5e0dc\] { background-color: var(--color-accent-red-light) !important; }
+html.dark-mode .bg-\[\#fef4e3\], html.dark-mode .bg-\[\#fcf1d7\] { background-color: var(--color-accent-yellow-light) !important; }
+
+html.dark-mode .border-\[\#e2dfd3\], html.dark-mode .border-\[\#e6e2d6\] { border-color: var(--color-paper-border) !important; }
+html.dark-mode .border-\[\#d1ccba\] { border-color: var(--color-paper-border-strong) !important; }
+
+/* Global reset */
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;

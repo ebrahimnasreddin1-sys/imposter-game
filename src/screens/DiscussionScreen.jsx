@@ -119,12 +119,20 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
             {formatTime(seconds)}
           </h1>
           {/* Timer bar */}
-          <div className="w-full max-w-xs mx-auto h-3 bg-[#e2dfd3] rounded-full overflow-hidden shadow-inner">
+          <div className="w-full max-w-xs mx-auto h-3 bg-[#e2dfd3] rounded-full overflow-hidden shadow-inner mb-4">
             <div
               className={`h-full rounded-full transition-all duration-1000 ${isLow ? 'bg-[#d97768]' : 'bg-[#83a373]'}`}
               style={{ width: `${pct}%` }}
             />
           </div>
+
+          <button 
+            onClick={() => setRunning(!running)}
+            className={`paper-card inline-flex items-center gap-2 px-6 py-2 rounded-xl font-bold active:scale-95 transition-all shadow-sm border ${running ? 'text-[#718096] hover:bg-[#faf9f6]' : 'text-[#83a373] border-[#83a373]/30 bg-[#e6edd8]'}`}
+          >
+            {running ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            {running ? (lang === 'ar' ? 'إيقاف مؤقت' : 'Pause') : (lang === 'ar' ? 'متابعة' : 'Resume')}
+          </button>
         </div>
 
         {/* Roulette Interaction Area */}

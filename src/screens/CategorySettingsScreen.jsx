@@ -108,7 +108,7 @@ export default function CategorySettingsScreen({ category, onBack }) {
                   onClick={() => handleToggle(char.name)}
                   className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 relative shadow-inner ${isEnabled ? 'bg-[#83a373]' : 'bg-[#e2dfd3]'}`}
                 >
-                  <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-300 border border-[#e2dfd3] ${isEnabled ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                  <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-300 border border-[#e2dfd3] ${isEnabled ? 'translate-x-6 rtl:-translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
               </div>
             );

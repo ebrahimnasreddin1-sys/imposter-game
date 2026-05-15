@@ -3,6 +3,8 @@ import HomeScreen from './screens/HomeScreen';
 import PlayersScreen from './screens/PlayersScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import CategorySettingsScreen from './screens/CategorySettingsScreen';
+import GlobalSettingsScreen from './screens/GlobalSettingsScreen';
+import HowToPlayScreen from './screens/HowToPlayScreen';
 import PassScreen from './screens/PassScreen';
 import SuspenseScreen from './screens/SuspenseScreen';
 import RevealScreen from './screens/RevealScreen';
@@ -60,6 +62,14 @@ export default function App() {
     setScreen('players');
   }, []);
 
+  const handleOpenGlobalSettings = useCallback(() => {
+    setScreen('globalSettings');
+  }, []);
+
+  const handleOpenHowToPlay = useCallback(() => {
+    setScreen('howToPlay');
+  }, []);
+
   // ── Category selected → start round ──
   const startRound = useCallback((category) => {
     setSelectedCategory(category);
@@ -77,13 +87,13 @@ export default function App() {
   }, [players, previousImposter]);
 
   // ── Open Category Settings ──
-  const handleOpenSettings = useCallback((category) => {
+  const handleOpenCategorySettings = useCallback((category) => {
     setSelectedCategory(category);
-    setScreen('settings');
+    setScreen('categorySettings');
   }, []);
 
   // ── Close Category Settings ──
-  const handleCloseSettings = useCallback(() => {
+  const handleCloseCategorySettings = useCallback(() => {
     setSelectedCategory(null);
     setScreen('category');
   }, []);
@@ -188,8 +198,17 @@ export default function App() {
         <HomeScreen
           onStartGame={handleStartGame}
           onOpenPlayers={handleOpenPlayers}
-          onOpenSettings={() => handleOpenSettings(null)}
+          onOpenSettings={handleOpenGlobalSettings}
+          onOpenHowToPlay={handleOpenHowToPlay}
         />
+      )}
+
+      {screen === 'howToPlay' && (
+        <HowToPlayScreen onBack={() => setScreen('home')} />
+      )}
+
+      {screen === 'globalSettings' && (
+        <GlobalSettingsScreen onBack={() => setScreen('home')} />
       )}
 
       {screen === 'players' && (
@@ -199,17 +218,17 @@ export default function App() {
       {screen === 'category' && (
         <CategoryScreen
           onSelect={startRound}
-          onOpenSettings={handleOpenSettings}
+          onOpenSettings={handleOpenCategorySettings}
           onBack={() => setScreen('players')}
           currentRound={currentRound}
           totalRounds={totalRounds}
         />
       )}
 
-      {screen === 'settings' && (
+      {screen === 'categorySettings' && (
         <CategorySettingsScreen
           category={selectedCategory}
-          onBack={handleCloseSettings}
+          onBack={handleCloseCategorySettings}
         />
       )}
 
