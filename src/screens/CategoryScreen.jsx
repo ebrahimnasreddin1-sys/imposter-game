@@ -25,10 +25,8 @@ export default function CategoryScreen({ onSelect, onOpenSettings, onBack, curre
         </button>
         
         <div className="absolute left-1/2 -translate-x-1/2 top-2">
-          <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
-            <div className="paper-strip">
-              <span className="font-black text-lg">{lang === 'ar' ? 'اختر الفئة' : 'Category'}</span>
-            </div>
+          <div className="bg-[#83a373] text-white px-6 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+            <span className="relative z-10">{lang === 'ar' ? 'اختر الفئة' : 'Select Category'}</span>
             <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
           </div>
         </div>

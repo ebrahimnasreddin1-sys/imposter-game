@@ -106,10 +106,8 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
       
       {/* Top Header Label */}
       <div className="pt-8 mb-6 relative z-10 flex justify-center">
-        <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
-          <div className="paper-strip">
-            <span className="font-black text-lg">{lang === 'ar' ? 'وقت النقاش' : 'Discussion Time'}</span>
-          </div>
+        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">{lang === 'ar' ? 'وقت النقاش' : 'Discussion Time'}</span>
           <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>
@@ -117,11 +115,9 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
       <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col">
         {/* Timer section */}
         <div className="text-center mb-6 z-10">
-          <div className="paper-strip mb-3">
-            <h1 className={`text-5xl md:text-6xl font-black font-mono tabular-nums px-4 py-2 ${isLow ? 'text-[#d97768]' : 'text-[#83a373]'}`}>
-              {formatTime(seconds)}
-            </h1>
-          </div>
+          <h1 className={`text-6xl font-black font-mono tabular-nums mb-3 ${isLow ? 'text-[#d97768]' : 'text-[#83a373]'}`}>
+            {formatTime(seconds)}
+          </h1>
           {/* Timer bar */}
           <div className="w-full max-w-xs mx-auto h-3 bg-[#e2dfd3] rounded-full overflow-hidden shadow-inner mb-4">
             <div
@@ -182,31 +178,23 @@ export default function DiscussionScreen({ players, category, currentRound, onEn
         <div className="flex flex-col gap-3 mb-8">
           {category === 'Jujutsu Kaisen' ? (
             <>
-              <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary p-2 w-full">
-                <div className="paper-strip w-full py-2 px-6 text-base border-none shadow-sm flex items-center justify-center gap-2 h-full">
-                  <Users className="w-5 h-5" />
-                  {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج عشوائي' : 'Random Pair')}
-                </div>
+              <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <Users className="w-5 h-5" />
+                {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج عشوائي' : 'Random Pair')}
               </button>
-              <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-primary p-2 w-full">
-                <div className="paper-strip w-full py-2 px-6 text-base border-none shadow-sm flex items-center justify-center gap-2 h-full">
-                  <HelpCircle className="w-5 h-5" />
-                  {lang === 'ar' ? 'سؤال عشوائي' : 'Random Question'}
-                </div>
+              <button onClick={pickNewQuestion} disabled={rouletteAnimating || !rouletteResult} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <HelpCircle className="w-5 h-5" />
+                {lang === 'ar' ? 'سؤال عشوائي' : 'Random Question'}
               </button>
-              <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary p-2 w-full">
-                <div className="paper-strip w-full py-2 px-6 text-base border-none shadow-sm flex items-center justify-center gap-2 h-full">
-                  <Shuffle className="w-5 h-5" />
-                  {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج + سؤال عشوائي' : 'Pair + Random Question')}
-                </div>
+              <button onClick={() => spinRoulette(true)} disabled={rouletteAnimating} className="btn-primary text-base py-3 shadow-[0_3px_0_#6a8c59]">
+                <Shuffle className="w-5 h-5" />
+                {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'زوج + سؤال عشوائي' : 'Pair + Random Question')}
               </button>
             </>
           ) : (
-            <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary p-2 w-full">
-              <div className="paper-strip w-full py-2 px-6 text-base border-none shadow-sm flex items-center justify-center gap-2 h-full">
-                <Shuffle className="w-5 h-5" />
-                {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'اختيار لاعبين عشوائيًا' : 'Spin Roulette')}
-              </div>
+            <button onClick={() => spinRoulette(false)} disabled={rouletteAnimating} className="btn-primary text-base py-4 shadow-[0_3px_0_#6a8c59]">
+              <Shuffle className="w-5 h-5" />
+              {rouletteAnimating ? t("spinning") : (lang === 'ar' ? 'اختيار لاعبين عشوائيًا' : 'Spin Roulette')}
             </button>
           )}
         </div>

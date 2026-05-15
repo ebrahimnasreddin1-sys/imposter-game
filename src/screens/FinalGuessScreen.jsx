@@ -38,12 +38,8 @@ export default function FinalGuessScreen({ imposterName, options, secretChar, on
       
       {/* Top Header Label */}
       <div className="pt-8 mb-6 relative z-10 flex justify-center">
-        <div className="bg-[#d97768] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
-          <div className="paper-strip">
-            <span className="font-black text-lg text-center leading-tight">
-              {lang === 'ar' ? 'التخمين النهائي' : 'Final Guess'}
-            </span>
-          </div>
+        <div className="bg-[#d97768] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
+          <span className="relative z-10">{lang === 'ar' ? 'المحاولة الأخيرة' : 'Final Guess'}</span>
           <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#d97768] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>

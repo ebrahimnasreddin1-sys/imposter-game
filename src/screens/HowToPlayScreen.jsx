@@ -17,11 +17,9 @@ export default function HowToPlayScreen({ onBack }) {
         </button>
         
         <div className="absolute left-1/2 -translate-x-1/2 top-2">
-          <div className="bg-[#d97768] text-white px-6 py-3 rounded-xl shadow-md torn-top relative whitespace-nowrap flex items-center justify-center">
-            <div className="paper-strip gap-2">
-              <HelpCircle className="w-5 h-5 text-[var(--color-ink-main)]" />
-              <span className="font-black text-lg">{lang === 'ar' ? 'طريقة اللعب' : 'How to Play'}</span>
-            </div>
+          <div className="bg-[#d97768] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative whitespace-nowrap flex items-center gap-2">
+            <HelpCircle className="w-5 h-5 relative z-10" />
+            <span className="relative z-10">{lang === 'ar' ? 'طريقة اللعب' : 'How to Play'}</span>
             <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#d97768] to-transparent opacity-50 blur-[2px]"></div>
           </div>
         </div>
