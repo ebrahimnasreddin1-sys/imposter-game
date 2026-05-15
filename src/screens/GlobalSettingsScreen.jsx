@@ -19,8 +19,10 @@ export default function GlobalSettingsScreen({ onBack }) {
         </button>
         
         <div className="absolute left-1/2 -translate-x-1/2 top-2">
-          <div className="bg-[#718096] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative whitespace-nowrap">
-            <span className="relative z-10">{lang === 'ar' ? 'الإعدادات العامة' : 'Settings'}</span>
+          <div className="bg-[#718096] text-white px-6 py-3 rounded-xl shadow-md torn-top relative whitespace-nowrap flex items-center justify-center">
+            <div className="paper-strip">
+              <span className="font-black text-lg">{lang === 'ar' ? 'الإعدادات العامة' : 'Settings'}</span>
+            </div>
             <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#718096] to-transparent opacity-50 blur-[2px]"></div>
           </div>
         </div>

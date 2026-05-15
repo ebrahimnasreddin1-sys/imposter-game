@@ -44,8 +44,10 @@ export default function PlayersScreen({ onContinue, onBack }) {
         </button>
         
         <div className="absolute left-1/2 -translate-x-1/2 top-2">
-          <div className="bg-[#83a373] text-white px-6 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
-            <span className="relative z-10">{lang === 'ar' ? 'اللاعبين' : 'Players'}</span>
+          <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex items-center justify-center">
+            <div className="paper-strip">
+              <span className="font-black text-lg">{lang === 'ar' ? 'اللاعبين' : 'Players'}</span>
+            </div>
             <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
           </div>
         </div>
@@ -153,12 +155,15 @@ export default function PlayersScreen({ onContinue, onBack }) {
 
       {/* Continue button */}
       <div className="px-4 pb-6 pt-2 z-10">
-        <button
-          onClick={() => isValid && onContinue(filledPlayers, rounds)}
+        <button 
+          onClick={handleContinue}
           disabled={!isValid}
-          className="btn-primary text-base"
+          className="btn-primary text-base p-2"
         >
-          {t("continue")} {lang === 'ar' ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+          <div className="paper-strip w-full py-2 px-4 gap-2 border-none shadow-sm flex items-center justify-center h-full">
+            {t("continue")} 
+            <ChevronRight className={`w-5 h-5 ${lang === 'ar' ? 'rotate-180' : ''}`} />
+          </div>
         </button>
       </div>
     </div>

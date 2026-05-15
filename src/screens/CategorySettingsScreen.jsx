@@ -62,8 +62,10 @@ export default function CategorySettingsScreen({ category, onBack }) {
         </button>
         
         <div className="absolute left-1/2 -translate-x-1/2 top-2">
-          <div className="bg-[#83a373] text-white px-6 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative whitespace-nowrap">
-            <span className="relative z-10">{lang === 'ar' ? 'إعدادات الشخصيات' : 'Character Settings'}</span>
+          <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center whitespace-nowrap">
+            <div className="paper-strip">
+              <span className="font-black text-lg">{lang === 'ar' ? 'إعدادات الشخصيات' : 'Character Settings'}</span>
+            </div>
             <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
           </div>
         </div>
@@ -126,8 +128,10 @@ export default function CategorySettingsScreen({ category, onBack }) {
         </div>
 
         {/* Save Button */}
-        <button onClick={handleSave} className="btn-primary py-4 text-base mt-auto">
-          {lang === 'ar' ? 'حفظ الإعدادات' : 'Save Settings'}
+        <button onClick={handleSave} className="btn-primary p-2 mt-auto">
+          <div className="paper-strip w-full py-2 px-6 text-base border-none shadow-sm flex items-center justify-center gap-2 h-full">
+            {lang === 'ar' ? 'حفظ وإغلاق' : 'Save & Close'}
+          </div>
         </button>
       </div>
     </div>

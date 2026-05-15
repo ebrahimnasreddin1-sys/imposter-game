@@ -21,8 +21,12 @@ export default function RoundResultScreen({
       
       {/* Top Header Label */}
       <div className="pt-8 mb-6 relative z-10 flex justify-center">
-        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
-          <span className="relative z-10">{lang === 'ar' ? 'نتائج الجولة' : 'Round Results'}</span>
+        <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
+          <div className="paper-strip">
+            <span className="font-black text-lg text-center leading-tight">
+              {lang === 'ar' ? 'نتيجة الجولة' : 'Round Result'}
+            </span>
+          </div>
           <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>
@@ -42,15 +46,21 @@ export default function RoundResultScreen({
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center bg-[#f5f2e9] p-3 rounded-xl border border-[#e2dfd3]">
               <span className="text-[#718096] text-sm font-bold">{t("secretCharacter")}</span>
-              <span className="text-[#6a8c59] font-black">{secretChar.name}</span>
+              <div className="paper-strip px-3 py-1">
+                <span className="text-[#6a8c59] font-black">{secretChar.name}</span>
+              </div>
             </div>
             <div className="flex justify-between items-center px-2">
               <span className="text-[#718096] text-sm font-bold">{t("categoryText")}</span>
-              <span className="text-[#2d3748] font-black text-sm">{lang === 'ar' ? (catNameAr[category] || category) : category}</span>
+              <div className="paper-strip-alt px-3 py-1">
+                <span className="text-[var(--color-ink-main)] font-black text-sm">{lang === 'ar' ? (catNameAr[category] || category) : category}</span>
+              </div>
             </div>
             <div className="flex justify-between items-center px-2">
               <span className="text-[#718096] text-sm font-bold">{t("imposterText")}</span>
-              <span className="text-[#c45b4c] font-black text-sm">{imposterName}</span>
+              <div className="paper-strip px-3 py-1">
+                <span className="text-[#c45b4c] font-black text-sm">{imposterName}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -116,15 +126,19 @@ export default function RoundResultScreen({
         {/* Action buttons */}
         <div className="mt-auto space-y-3">
           {isLastRound ? (
-            <button onClick={onFinalResults} className="btn-primary text-base py-4 shadow-[0_3px_0_#6a8c59]">
-              <Trophy className="w-5 h-5" /> {t("finalResults")}
+            <button onClick={onFinalResults} className="btn-primary p-2 w-full">
+              <div className="paper-strip w-full py-2 px-6 text-lg border-none shadow-sm flex items-center justify-center gap-2 h-full">
+                <Trophy className="w-5 h-5" /> {t("finalResults")}
+              </div>
             </button>
           ) : (
             <>
-              <button onClick={onNextRound} className="btn-primary text-base py-4 flex justify-center items-center gap-2 shadow-[0_3px_0_#6a8c59]">
-                {lang === 'ar' ? <ChevronLeft className="w-6 h-6" /> : null}
-                {t("nextRound")} 
-                {lang === 'en' ? <ChevronRight className="w-6 h-6" /> : null}
+              <button onClick={onNextRound} className="btn-primary p-2 w-full">
+                <div className="paper-strip w-full py-2 px-6 text-lg border-none shadow-sm flex items-center justify-center gap-2 h-full">
+                  {lang === 'ar' ? <ChevronLeft className="w-6 h-6" /> : null}
+                  {t("nextRound")} 
+                  {lang === 'en' ? <ChevronRight className="w-6 h-6" /> : null}
+                </div>
               </button>
               <button onClick={onChangeCategory} className="w-full text-center py-3 text-sm font-bold text-[#718096] active:scale-95 transition-transform hover:text-[#2d3748]">
                 {t("changeCategory")}

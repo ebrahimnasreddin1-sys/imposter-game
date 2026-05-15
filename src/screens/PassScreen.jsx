@@ -7,8 +7,10 @@ export default function PassScreen({ playerName, onReveal }) {
     <div className="animate-fadeIn flex flex-col items-center h-full px-6 bg-[var(--color-paper-bg)] relative">
       {/* Top Header Label */}
       <div className="mt-8 mb-16 relative z-10">
-        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
-          <span className="relative z-10">{lang === 'ar' ? 'مرّر الهاتف' : 'Pass the Phone'}</span>
+          <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
+            <div className="paper-strip">
+              <span className="font-black text-lg">{lang === 'ar' ? 'مرر الهاتف' : 'Pass the Device'}</span>
+            </div>
           <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>

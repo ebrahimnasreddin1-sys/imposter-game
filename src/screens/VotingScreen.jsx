@@ -39,9 +39,11 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
           </h2>
           <button 
             onClick={() => setPassScreen(false)} 
-            className="btn-primary py-4 px-12 text-lg font-black shadow-[0_3px_0_#6a8c59] w-full"
+            className="btn-primary p-2 w-full"
           >
-            {lang === 'ar' ? `أنا ${voterName}` : `I am ${voterName}`}
+            <div className="paper-strip w-full py-2 px-12 text-lg font-black border-none shadow-sm flex items-center justify-center h-full">
+              {lang === 'ar' ? `أنا ${voterName}` : `I am ${voterName}`}
+            </div>
           </button>
         </div>
       </div>
@@ -69,10 +71,12 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
       
       {/* Top Header Label */}
       <div className="pt-8 mb-6 relative z-10 flex justify-center">
-        <div className="bg-[#83a373] text-white px-8 py-2 rounded-xl text-lg font-bold shadow-md torn-top relative">
-          <span className="relative z-10">
-            {lang === 'ar' ? 'صوّت: من هو الإمبوستر؟' : 'Vote: Who is the Imposter?'}
-          </span>
+        <div className="bg-[#83a373] text-white px-6 py-3 rounded-xl shadow-md torn-top relative flex justify-center items-center">
+          <div className="paper-strip">
+            <span className="font-black text-lg text-center leading-tight">
+              {lang === 'ar' ? 'صوّت: من هو الإمبوستر؟' : 'Vote: Who is the Imposter?'}
+            </span>
+          </div>
           <div className="absolute -bottom-1 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#83a373] to-transparent opacity-50 blur-[2px]"></div>
         </div>
       </div>
@@ -116,10 +120,11 @@ export default function VotingScreen({ players, currentVoterIdx, onVote }) {
           <button
             onClick={handleVote}
             disabled={!selected}
-            className="btn-primary py-4 px-10 text-lg shadow-[0_3px_0_#6a8c59] w-full max-w-xs"
+            className="btn-primary p-2 w-full max-w-xs"
           >
-            {lang === 'ar' ? 'ابدأ التصويت' : 'Submit Vote'}
-            {lang === 'ar' ? <Check className="w-5 h-5 mr-2" /> : <Check className="w-5 h-5 ml-2" />}
+            <div className="paper-strip w-full py-2 px-10 text-lg border-none shadow-sm flex items-center justify-center gap-2 h-full">
+              {lang === 'ar' ? 'بدء التصويت' : 'Submit Vote'} <Vote className="w-5 h-5 inline" />
+            </div>
           </button>
         </div>
       </div>

@@ -45,7 +45,7 @@ export default function HomeScreen({ onStartGame, onOpenPlayers, onOpenSettings,
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 w-full max-w-sm mx-auto">
         <div className="w-full relative mb-12 animate-slideUp">
           <div className="paper-card-strong px-6 py-10 w-full text-center torn-top bg-white relative">
-            <h1 className="text-4xl md:text-5xl font-black text-[#2d3748] leading-tight mb-3 tracking-wide">
+            <h1 className="paper-strip text-3xl md:text-4xl font-black text-[#2d3748] leading-tight mb-4 tracking-wide px-6 py-2 transform -rotate-1">
               {lang === 'ar' ? 'لعبة الإمبوستر' : 'Imposter Game'}
             </h1>
             <p className="text-[#718096] text-sm md:text-base font-semibold">
@@ -57,10 +57,12 @@ export default function HomeScreen({ onStartGame, onOpenPlayers, onOpenSettings,
           <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[85%] z-20">
             <button 
               onClick={onStartGame}
-              className="btn-primary text-xl py-5"
+              className="btn-primary text-xl py-2 px-2"
             >
-              {lang === 'ar' ? 'ابدأ اللعبة' : 'Start Game'} 
-              <Play className="w-6 h-6 fill-white" />
+              <div className="paper-strip w-full py-3 gap-2 border-none shadow-sm flex items-center justify-center h-full">
+                {lang === 'ar' ? 'ابدأ اللعبة' : 'Start Game'} 
+                <Play className="w-6 h-6 fill-[var(--color-ink-main)] text-[var(--color-ink-main)]" />
+              </div>
             </button>
           </div>
         </div>
